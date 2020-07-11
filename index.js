@@ -8,3 +8,27 @@ mongoose
   })
   .then(() => console.log('Connected to DB...'))
   .catch((err) => console.log('Error', err));
+
+const courseSchema = new mongoose.Schema({
+  name: String,
+  author: String,
+  tags: [String],
+  date: { type: Date, default: Date.now },
+  inPublished: Boolean,
+});
+
+const Course = mongoose.model('Course', courseSchema);
+
+async function createCourse() {
+  const course = new Course({
+    name: 'React Course',
+    author: 'Teacher',
+    tags: ['React', 'front-end'],
+    inPublished: true,
+  });
+
+  const result = await course.save();
+  console.log(result);
+}
+
+createCourse();
