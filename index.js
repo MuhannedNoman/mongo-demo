@@ -65,7 +65,9 @@ async function getCourses() {
     .limit(10)
     .sort({ name: 1 })
     // Only show this properties
-    .select({ name: 1, tags: 1 });
+    .select({ name: 1, tags: 1 })
+    // Get the count of documents that match our filter
+    .countDocuments();
   console.log(courses);
 }
 
