@@ -61,8 +61,13 @@ async function getCourses() {
 . find({ author: / .*each.* /i })
    */
 
+  const pageNumber = 2;
+  const pageSize = 10;
+
   const courses = await Course.find({ author: 'Teacher', inPublished: true })
-    .limit(10)
+    .limit(pageSize)
+    // (pageNumber - 1) * pageSize
+    .skip((pageNumber - 1) * pageSize)
     .sort({ name: 1 })
     // Only show this properties
     .select({ name: 1, tags: 1 })
