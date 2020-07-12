@@ -50,9 +50,21 @@ async function getCourses() {
   and([ ])
   */
 
+  /* 
+  ^ => String that starts with something. 
+  .find({ author: /^Teac/ })
+  $ => String that ends with that thing.
+  .find({ author: /cher$/ })
+  Add i after the pattern to make case insensative
+  .find({ author: /cher$/i })
+  .* .* => Contain this text
+. find({ author: / .*each.* /i })
+   */
+
   const courses = await Course.find({ author: 'Teacher', inPublished: true })
     .limit(10)
     .sort({ name: 1 })
+    // Only show this properties
     .select({ name: 1, tags: 1 });
   console.log(courses);
 }
