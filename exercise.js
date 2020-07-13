@@ -30,4 +30,28 @@ async function getAllPublishedBackendCourses() {
   console.log(courses);
 }
 
-getAllPublishedBackendCourses();
+// getAllPublishedBackendCourses();
+
+async function getAllPublishedFrontendCourses() {
+  const courses = await Course.find({
+    isPublished: true,
+    tags: { $in: ['backend', 'frontend'] },
+  })
+    .sort({ price: -1 })
+    .select({ name: 1, author: 1 });
+
+  console.log(courses);
+}
+
+// getAllPublishedFrontendCourses();
+
+async function getAllPublishedByAndPrice() {
+  const courses = await Course.find({ isPublished: true }).or([
+    { price: { $gte: 15 } },
+    { name: /.*by.*/i },
+  ]);
+
+  console.log(courses);
+}
+
+getAllPublishedByAndPrice();
