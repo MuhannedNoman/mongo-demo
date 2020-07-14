@@ -14,7 +14,7 @@ const courseSchema = new mongoose.Schema({
   author: String,
   tags: [String],
   date: { type: Date, default: Date.now },
-  inPublished: Boolean,
+  isPublished: Boolean,
 });
 
 const Course = mongoose.model('Course', courseSchema);
@@ -24,7 +24,7 @@ async function createCourse() {
     name: 'React Course',
     author: 'Teacher',
     tags: ['React', 'front-end'],
-    inPublished: true,
+    isPublished: true,
   });
 
   const result = await course.save();
@@ -96,4 +96,32 @@ async function updateCourse(id) {
   console.log(result);
 }
 
-updateCourse('5f0a24f68bc7e01f7ccc7995');
+async function updateCourseFirst(id) {
+  // Update first.
+  // When you know what you are doing and your sure you want to upate.
+  // const result = await Course.update(
+  //   { _id: id },
+  //   {
+  //     $set: {
+  //       author: 'Else',
+  //       isPublished: false,
+  //     },
+  //   }
+  // );
+
+  // To get the object back
+  const result = await Course.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        author: 'Jake',
+        isPublished: false,
+      },
+    },
+    // Pass this to get the latest change, not the previous value.
+    { new: true }
+  );
+  console.log(result);
+}
+
+updateCourseFirst('5f0a24f68bc7e01f7ccc7995');
