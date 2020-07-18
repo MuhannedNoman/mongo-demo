@@ -10,7 +10,7 @@ mongoose
   .catch((err) => console.log('Error', err));
 
 const courseSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   author: String,
   tags: [String],
   date: { type: Date, default: Date.now },
@@ -21,14 +21,18 @@ const Course = mongoose.model('Course', courseSchema);
 
 async function createCourse() {
   const course = new Course({
-    name: 'React Course',
+    // name: 'React Course',
     author: 'Teacher',
     tags: ['React', 'front-end'],
     isPublished: true,
   });
 
-  const result = await course.save();
-  console.log(result);
+  try {
+    const result = await course.save();
+    console.log(result);
+  } catch (ex) {
+    console.log(ex.message);
+  }
 }
 
 async function getCourses() {
@@ -125,8 +129,11 @@ async function updateCourseFirst(id) {
 }
 
 async function removeCourse(id) {
+  // Delete one
   const result = await Course.deleteOne({ _id: id });
   console.log(result);
 }
 
-removeCourse('5f0a24f68bc7e01f7ccc7995');
+// removeCourse('5f0a24f68bc7e01f7ccc7995');
+
+createCourse();
