@@ -20,8 +20,12 @@ const courseSchema = new mongoose.Schema({
   tags: {
     type: Array,
     validate: {
-      validator: function (value) {
-        return value && value.length > 0;
+      isAsync: true,
+      validator: function (value, callback) {
+        setTimeout(() => {
+          const result = value && value.length > 0;
+          callback(result);
+        }, 1000);
       },
       message: 'A course should have one tag at least.',
     },
