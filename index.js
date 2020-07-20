@@ -30,7 +30,7 @@ const courseSchema = new mongoose.Schema({
             } else {
               reject(new Error('A Course should have at least one tag'));
             }
-          }, 4000);
+          }, 1000);
         }),
     },
   },
@@ -52,7 +52,7 @@ const Course = mongoose.model('Course', courseSchema);
 async function createCourse() {
   const course = new Course({
     name: 'React Course',
-    category: 'web',
+    category: '-',
     author: 'Teacher',
     tags: null,
     isPublished: true,
@@ -63,7 +63,7 @@ async function createCourse() {
     const result = await course.save();
     console.log(result);
   } catch (ex) {
-    console.log(ex.message);
+    for (field in ex.errors) console.log(ex.errors[field].message);
   }
 }
 
